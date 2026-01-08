@@ -1,9 +1,0 @@
-executor: cluster-generic
-cluster-generic-submit-cmd: "sbatch --qos={resources.qos} --cpus-per-task={resources.cpus} --gpus-per-task={resources.gpus} --ntasks=1 --mem={resources.mem_mb} --time={resources.time} --nodes=1 --container-image='dodrio1.umcn.nl#jantagscherer/fm_rad_eval' --container-mounts=/data:/data -o ./slurm-logs/slurm-%j.out"
-jobs: 12
-default-resources:
-  - qos=low
-  - cpus=1
-  - gpus=0
-  - mem_mb=4000
-  - time=1-00:00:00

@@ -1,3 +1,6 @@
+# Copyright Diagnostic Image Analysis Group, Radboudumc, Nijmegen, The Netherlands
+# Licensed under Apache-2.0
+
 def get_dataset_modalities(experiment_name, dataset_name):
     """Retrieve the list of modalities for a given dataset in an experiment."""
     import json

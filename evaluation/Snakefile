@@ -1,3 +1,6 @@
+# Copyright Diagnostic Image Analysis Group, Radboudumc, Nijmegen, The Netherlands
+# Licensed under Apache-2.0
+
 rule evaluate_knn:
     input:
         feature_file_training = OUTPUT_ROOT + "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/features/{feature_path}/training.npz",
