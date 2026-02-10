@@ -29,7 +29,7 @@ from .feature_model_util import get_args_parser
 def load_model():
     config = MODEL_CONFIGS['spectre-large-pretrained']
     model = SpectreImageFeatureExtractor.from_config(config)
-    model.eval()
+    model.cuda().eval()
     return model
 
 
@@ -80,8 +80,7 @@ def compute_features(args, model, dataset_type):
     for i in tqdm(range(len(dataset))):
         with torch.no_grad():
             features.append(
-                torch.nn.functional.adaptive_avg_pool3d(
-                    model(dataset[i]['image'].unsqueeze(0).cuda(), grid_size=(1, 1, 1))[-1], 1)
+                model(dataset[i]['image'].unsqueeze(0).unsqueeze(0).cuda(), grid_size=(1, 1, 1))[-1].mean(dim=0)
                 .squeeze()
                 .detach()
                 .cpu()
