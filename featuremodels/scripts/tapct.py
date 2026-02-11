@@ -21,13 +21,38 @@ from monai.transforms import (
 )
 from tqdm import tqdm
 
-from transformers import AutoModel
+from transformers import AutoConfig
+from transformers.models.auto.auto_factory import get_class_from_dynamic_module
+from huggingface_hub import hf_hub_download
+from safetensors.torch import load_file as load_safetensors
+
 from util.util import fix_random_seeds
 from .feature_model_util import get_args_parser
 
 
 def load_model():
-    model = AutoModel.from_pretrained('fomofo/tap-ct-b-3d', trust_remote_code=True)
+    repo_id = "fomofo/tap-ct-b-3d"
+
+    config = AutoConfig.from_pretrained(
+        repo_id,
+        trust_remote_code=True,
+    )
+
+    model_cls = get_class_from_dynamic_module(
+        class_reference="modeling_tapct.TAPCTModel",
+        pretrained_model_name_or_path=repo_id,
+    )
+    model = model_cls(config)
+
+    ckpt_path = hf_hub_download(
+        repo_id=repo_id,
+        filename="model.safetensors",
+    )
+
+    state_dict = load_safetensors(ckpt_path)
+    model.load_state_dict(state_dict, strict=True)
+
+    model.cuda().eval()
     return model
 
 
@@ -40,7 +65,6 @@ def load_dataset(args, dataset_type):
             EnsureTyped(keys=["image"]),
             EnsureTyped(keys=["label"]),
             Orientationd(keys=["image"], axcodes="LPS"),
-            ResizeWithPadOrCropd(keys=["image"], spatial_size=(224, 224, 64)),
             ScaleIntensityRanged(
                 keys=["image"],
                 a_min=-1008,
@@ -54,7 +78,7 @@ def load_dataset(args, dataset_type):
                 subtrahend=-86.8086,
                 divisor=322.6347,
             ),
-            CropForegroundd(keys=["image"], source_key="image"),
+            ResizeWithPadOrCropd(keys=["image"], spatial_size=(224, 224, 16)),
         ]
     )
     json_path = args.entries_file
@@ -82,8 +106,7 @@ def compute_features(args, model, dataset_type):
     for i in tqdm(range(len(dataset))):
         with torch.no_grad():
             features.append(
-                torch.nn.functional.adaptive_avg_pool3d(
-                    model(dataset[i]['image'].unsqueeze(0).cuda(), grid_size=(1, 1, 1))[-1], 1)
+                model(dataset[i]['image'].permute(0, 3, 1, 2).unsqueeze(0).cuda())["pooler_output"]
                 .squeeze()
                 .detach()
                 .cpu()
