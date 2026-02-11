@@ -27,6 +27,7 @@ rule aggregate_modality_mean:
         output_features_training = OUTPUT_ROOT + "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/features/aggregated/modality-mean/training.npz",
         output_features_test = OUTPUT_ROOT + "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/features/aggregated/modality-mean/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-core:0.0.1",
         qos="low",
         cpus=8,
         gpus=0,
