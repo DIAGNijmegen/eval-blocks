@@ -18,7 +18,7 @@ rule evaluate_knn:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.knn \
+            /usr/local/bin/python3 -m evaluation.scripts.knn \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-metrics {output.output_metrics}"
@@ -42,7 +42,7 @@ rule evaluate_linear_probing:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.linearprobing \
+            /usr/local/bin/python3 -m evaluation.scripts.linearprobing \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-metrics {output.output_metrics} \
@@ -67,9 +67,8 @@ rule evaluate_visualization:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install seaborn matplotlib scikit-learn && \
-            cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.visualization \
+            "cd {REPOSITORY_ROOT} && \
+            /usr/local/bin/python3 -m evaluation.scripts.visualization \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-lda {output.output_lda} \

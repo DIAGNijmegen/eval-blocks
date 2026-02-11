@@ -37,7 +37,7 @@ rule aggregate_modality_mean:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m aggregation.scripts.modalitymean \
+            /usr/local/bin/python3 -m aggregation.scripts.modalitymean \
                 --input-features-training {input.input_features_training} \
                 --input-features-test {input.input_features_test} \
                 --output-features-training {output.output_features_training} \

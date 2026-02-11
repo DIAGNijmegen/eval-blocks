@@ -23,7 +23,7 @@ rule compute_features_ctfm:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.ctfm \
+            /usr/local/bin/python3 -m featuremodels.scripts.ctfm \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test}"
@@ -47,7 +47,7 @@ rule compute_features_curia:
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.curia \
+            /usr/local/bin/python3 -m featuremodels.scripts.curia \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -72,7 +72,7 @@ rule compute_features_dinov2:
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.dinov2 \
+            /usr/local/bin/python3 -m featuremodels.scripts.dinov2 \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -97,7 +97,7 @@ rule compute_features_dinov3:
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.dinov3 \
+            /usr/local/bin/python3 -m featuremodels.scripts.dinov3 \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -121,7 +121,7 @@ rule compute_features_umedpt:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.umedpt \
+            /usr/local/bin/python3 -m featuremodels.scripts.umedpt \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -145,7 +145,7 @@ rule compute_features_spectre:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.spectre \
+            /usr/local/bin/python3 -m featuremodels.scripts.spectre \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -170,7 +170,7 @@ rule compute_features_tapct:
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.tapct \
+            /usr/local/bin/python3 -m featuremodels.scripts.tapct \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
