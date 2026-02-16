@@ -8,7 +8,8 @@ rule evaluate_knn:
     output:
         output_metrics = OUTPUT_ROOT + "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/metrics/{feature_path}/knn.json"
     resources:
-        qos="low",
+        image="jtagscherer/evalblocks-core:0.0.1",
+        qos="idle",
         cpus=8,
         gpus=0,
         mem_mb=16000,
@@ -17,7 +18,7 @@ rule evaluate_knn:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.knn \
+            /usr/local/bin/python3 -m evaluation.scripts.knn \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-metrics {output.output_metrics}"
@@ -31,7 +32,8 @@ rule evaluate_linear_probing:
         output_metrics = OUTPUT_ROOT + "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/metrics/{feature_path}/linear.json",
         output_checkpoint = directory(OUTPUT_ROOT +  "/{experiment_name}/{epoch}/{dataset_name}/fold{fold}/checkpoints/{feature_path}/")
     resources:
-        qos="low",
+        image = "jtagscherer/evalblocks-core:0.0.1",
+        qos="idle",
         cpus=8,
         gpus=0,
         mem_mb=24000,
@@ -40,7 +42,7 @@ rule evaluate_linear_probing:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
             "cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.linearprobing \
+            /usr/local/bin/python3 -m evaluation.scripts.linearprobing \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-metrics {output.output_metrics} \
@@ -56,7 +58,8 @@ rule evaluate_visualization:
         output_pca = OUTPUT_ROOT + "/{experiment_name}/{checkpoint}/{dataset_name}/fold{fold}/visualizations/{feature_path}/pca.png",
         output_tsne = OUTPUT_ROOT + "/{experiment_name}/{checkpoint}/{dataset_name}/fold{fold}/visualizations/{feature_path}/tsne.png"
     resources:
-        qos="low",
+        image = "jtagscherer/evalblocks-core:0.0.1",
+        qos="idle",
         cpus=8,
         gpus=0,
         mem_mb=16000,
@@ -64,9 +67,8 @@ rule evaluate_visualization:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install seaborn matplotlib scikit-learn && \
-            cd {REPOSITORY_ROOT} && \
-            python -m evaluation.scripts.visualization \
+            "cd {REPOSITORY_ROOT} && \
+            /usr/local/bin/python3 -m evaluation.scripts.visualization \
                 --feature-file-training {input.feature_file_training} \
                 --feature-file-test {input.feature_file_test} \
                 --output-lda {output.output_lda} \

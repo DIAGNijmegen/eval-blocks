@@ -13,6 +13,7 @@ rule compute_features_ctfm:
         output_features_training = OUTPUT_ROOT + "/ctfm/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
         output_features_test = OUTPUT_ROOT + "/ctfm/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-ctfm:0.0.1",
         qos="low",
         cpus=16,
         gpus=1,
@@ -21,9 +22,8 @@ rule compute_features_ctfm:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install lighter-zoo && \
-            cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.ctfm \
+            "cd {REPOSITORY_ROOT} && \
+            /usr/local/bin/python3 -m featuremodels.scripts.ctfm \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test}"
@@ -36,6 +36,7 @@ rule compute_features_curia:
         output_features_training = OUTPUT_ROOT + "/curia/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
         output_features_test = OUTPUT_ROOT + "/curia/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-huggingface:0.0.1",
         qos="low",
         cpus=16,
         gpus=1,
@@ -44,10 +45,9 @@ rule compute_features_curia:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install transformers && \
-            export HF_HOME={HF_HOME} && \
+            "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.curia \
+            /usr/local/bin/python3 -m featuremodels.scripts.curia \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -61,6 +61,7 @@ rule compute_features_dinov2:
         output_features_training = OUTPUT_ROOT + "/dinov2/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
         output_features_test = OUTPUT_ROOT + "/dinov2/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-huggingface:0.0.1",
         qos="low",
         cpus=16,
         gpus=1,
@@ -69,10 +70,9 @@ rule compute_features_dinov2:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install transformers && \
-            export HF_HOME={HF_HOME} && \
+            "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.dinov2 \
+            /usr/local/bin/python3 -m featuremodels.scripts.dinov2 \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -86,6 +86,7 @@ rule compute_features_dinov3:
         output_features_training = OUTPUT_ROOT + "/dinov3/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
         output_features_test = OUTPUT_ROOT + "/dinov3/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-huggingface:0.0.1",
         qos="low",
         cpus=16,
         gpus=1,
@@ -94,10 +95,9 @@ rule compute_features_dinov3:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install transformers && \
-            export HF_HOME={HF_HOME} && \
+            "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.dinov3 \
+            /usr/local/bin/python3 -m featuremodels.scripts.dinov3 \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \
@@ -111,6 +111,7 @@ rule compute_features_umedpt:
         output_features_training = OUTPUT_ROOT + "/umedpt/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
         output_features_test = OUTPUT_ROOT + "/umedpt/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
     resources:
+        image = "jtagscherer/evalblocks-umedpt:0.0.1",
         qos="low",
         cpus=16,
         gpus=1,
@@ -119,13 +120,57 @@ rule compute_features_umedpt:
     shell:
         """
         ./run_from_repository.sh "{REPOSITORY_ROOT}" \
-            "pip install medicalmultitaskmodeling && \
-            python -m pip cache purge && \
-            pip install torch==2.2 && \
-            python -m pip cache purge && \
-            export MMM_LICENSE_ACCEPTED='i accept' && \
+            "cd {REPOSITORY_ROOT} && \
+            /usr/local/bin/python3 -m featuremodels.scripts.umedpt \
+                --entries-file {input.entries_file} \
+                --output-features-training {output.output_features_training} \
+                --output-features-test {output.output_features_test} \
+                --modality {wildcards.modality}"
+        """
+
+rule compute_features_spectre:
+    input:
+        entries_file = lambda wildcards: DATASET_ROOT + f"/{wildcards.dataset_name}/{get_entries_file('curia', wildcards.dataset_name)}_fold{wildcards.fold}.json"
+    output:
+        output_features_training = OUTPUT_ROOT + "/spectre/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
+        output_features_test = OUTPUT_ROOT + "/spectre/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
+    resources:
+        image = "jtagscherer/evalblocks-spectre:0.0.1",
+        qos="low",
+        cpus=16,
+        gpus=1,
+        mem_mb=32000,
+        time="1-00:00:00"
+    shell:
+        """
+        ./run_from_repository.sh "{REPOSITORY_ROOT}" \
+            "cd {REPOSITORY_ROOT} && \
+            /usr/local/bin/python3 -m featuremodels.scripts.spectre \
+                --entries-file {input.entries_file} \
+                --output-features-training {output.output_features_training} \
+                --output-features-test {output.output_features_test} \
+                --modality {wildcards.modality}"
+        """
+
+rule compute_features_tapct:
+    input:
+        entries_file = lambda wildcards: DATASET_ROOT + f"/{wildcards.dataset_name}/{get_entries_file('curia', wildcards.dataset_name)}_fold{wildcards.fold}.json"
+    output:
+        output_features_training = OUTPUT_ROOT + "/tapct/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/training.npz",
+        output_features_test = OUTPUT_ROOT + "/tapct/{epoch}/{dataset_name}/fold{fold}/features/modalities/{modality}/test.npz"
+    resources:
+        image = "jtagscherer/evalblocks-huggingface:0.0.1",
+        qos="low",
+        cpus=16,
+        gpus=1,
+        mem_mb=32000,
+        time="1-00:00:00"
+    shell:
+        """
+        ./run_from_repository.sh "{REPOSITORY_ROOT}" \
+            "export HF_HOME={HF_HOME} && \
             cd {REPOSITORY_ROOT} && \
-            python -m featuremodels.scripts.umedpt \
+            /usr/local/bin/python3 -m featuremodels.scripts.tapct \
                 --entries-file {input.entries_file} \
                 --output-features-training {output.output_features_training} \
                 --output-features-test {output.output_features_test} \

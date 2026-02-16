@@ -142,5 +142,53 @@
       "linear",
       "visualizations"
     ]
+  },
+  "spectre": {
+    "description": "SPECTRE",
+    "model": {
+      "architecture": "spectre",
+      "type": null
+    },
+    "epochs": [0],
+    "datasets": [
+      {
+        "name": "CT_PANORAMA",
+        "entries_file": "2025-05-23-PubTrain-patches-224x224x16_patch_labels"
+      },
+      {
+        "name": "amara",
+        "entries_file": "2025-05-23-amara-patches-224x224x16"
+      }
+    ],
+    "aggregation_methods": [],
+    "evaluation_modes": [
+      "knn",
+      "linear",
+      "visualizations"
+    ]
+  },
+  "tapct": {
+    "description": "TAP-CT",
+    "model": {
+      "architecture": "tapct",
+      "type": null
+    },
+    "epochs": [0],
+    "datasets": [
+      {
+        "name": "CT_PANORAMA",
+        "entries_file": "2025-05-23-PubTrain-patches-224x224x16_patch_labels"
+      },
+      {
+        "name": "amara",
+        "entries_file": "2025-05-23-amara-patches-224x224x16"
+      }
+    ],
+    "aggregation_methods": [],
+    "evaluation_modes": [
+      "knn",
+      "linear",
+      "visualizations"
+    ]
   }
 }

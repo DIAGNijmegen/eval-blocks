@@ -21,7 +21,7 @@ An example file for a Slurm cluster that will run up to 12 jobs in parallel coul
 
 ```yaml
 executor: cluster-generic
-cluster-generic-submit-cmd: "sbatch --qos={resources.qos} --cpus-per-task={resources.cpus} --gpus-per-task={resources.gpus} --ntasks=1 --mem={resources.mem_mb} --time={resources.time} --nodes=1 --container-image='{The Docker image you want to use for evaluation}' --container-mounts=/data:/data -o ./slurm-logs/slurm-%j.out"
+cluster-generic-submit-cmd: "sbatch --qos={resources.qos} --cpus-per-task={resources.cpus} --gpus-per-task={resources.gpus} --ntasks=1 --mem={resources.mem_mb} --time={resources.time} --nodes=1 --container-image='{resources.image}' --container-mounts=/data:/data -o ./slurm-logs/slurm-%j.out"
 jobs: 12
 default-resources:
   - qos=low
@@ -32,6 +32,8 @@ default-resources:
 ```
 
 Place this file in a folder of your choice. You will reference it when running the pipeline.
+
+In EvalBlocks, batteries are included: Foundation models are shipped with inference code with the author's recommended preprocessing steps, running via provided Docker images that include all dependencies.
 
 ### Export environment variables
 
