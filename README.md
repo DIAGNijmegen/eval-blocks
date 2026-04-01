@@ -72,16 +72,16 @@ You can add a new foundation model, aggregation model or evaluation strategy by 
 
 ## Citation
 
-If you use EvalBlocks for your research, please cite the [arXiv preprint](https://arxiv.org/abs/2601.03811):
+If you use EvalBlocks for your research, please cite the [paper](https://doi.org/10.1007/978-3-658-51100-5_9):
 ```
-@article{tagscherer2026evalblocksmodularpipelinerapidly,
-  title={EvalBlocks: A Modular Pipeline for Rapidly Evaluating Foundation Models in Medical Imaging}, 
-  author={Jan Tagscherer and Sarah de Boer and Lena Philipp and Fennie van der Graaf and Dré Peeters and Joeran Bosma and Lars Leijten and Bogdan Obreja and Ewoud Smit and Alessa Hering},
-  year={2026},
-  eprint={2601.03811},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2601.03811}, 
-  note={Accepted at BVM 2026},
+@inproceedings{tagscherer2026evalblocks,
+  title={EvalBlocks: A Modular Pipeline for Rapidly Evaluating Foundation Models in Medical Imaging},
+  author={Tagscherer, Jan and de Boer, Sarah and Philipp, Lena and van der Graaf, Fennie and Peeters, Dr{\'e} and Bosma, Joeran and Leijten, Lars and Obreja, Bogdan and Smit, Ewoud and Hering, Alessa},
+  booktitle="Bildverarbeitung f{\"u}r die Medizin 2026",
+  year="2026",
+  publisher="Springer Fachmedien Wiesbaden",
+  address="Wiesbaden",
+  pages="48--54",
+  isbn="978-3-658-51100-5"
 }
 ```
