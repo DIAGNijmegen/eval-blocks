@@ -70,7 +70,7 @@ You can customize the experiments by modifying the `experiments.json` file locat
 
 You can add a new foundation model, aggregation model or evaluation strategy by adding a new block in the associated directory. For example, to add a new foundation model, add a new rule to `featuremodels/Snakefile` and create a new Python file in the `featuremodels/scripts` folder that transforms the given input files into feature embeddings in the required format.
 
-## Citation
+## Citation & Attribution
 
 If you use EvalBlocks for your research, please cite the [paper](https://doi.org/10.1007/978-3-658-51100-5_9):
 ```
@@ -85,3 +85,7 @@ If you use EvalBlocks for your research, please cite the [paper](https://doi.org
   isbn="978-3-658-51100-5"
 }
 ```
+
+This tool was developed by the [Oncology Research Group at the Diagnostic Image Analysis Group (DIAG)](https://www.diagnijmegen.nl/research/oncology/), Radboud University Medical Center.
+
+**Contact:** [Jan Tagscherer](jan.tagscherer@radboudumc.nl), [Alessa Hering](alessa.hering@radboudumc.nl).
